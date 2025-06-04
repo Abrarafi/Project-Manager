@@ -7,7 +7,7 @@ module.exports = {
       extend: {
         colors: {
           'primary': {
-            50: '#4F46E5',
+            50: '#666666',
             100: '#e0e7ff',
             200: '#c7d2fe',
             300: '#a5b4fc',
@@ -34,7 +34,8 @@ module.exports = {
             'blue': '#2563eb',
             'blue-dark': '#1d4ed8',
             'blue-light': '#3b82f6',
-          }
+          },
+          "custom-gray": "#666666",
         },
         fontFamily: {
           sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
