@@ -1,0 +1,13 @@
+.signIn-button {
+    background-color: #11111180 !important;
+    color: white !important;
+    height: 64px;
+  }
+  
+  /* For medium screens and smaller (max-width: 768px) */
+  @media (max-width: 768px) {
+    .signIn-button {
+      height: 50px;
+    }
+  }
+  
