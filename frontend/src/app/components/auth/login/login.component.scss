@@ -3,6 +3,9 @@
     color: white !important;
     height: 64px;
   }
+  ::ng-deep .spinner circle {
+  stroke: white;
+}
   
   /* For medium screens and smaller (max-width: 768px) */
   @media (max-width: 768px) {
@@ -10,4 +13,5 @@
       height: 50px;
     }
   }
-  
+
+ 
