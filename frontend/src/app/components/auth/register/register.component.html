@@ -1,1 +1,198 @@
-<p class="">register works!</p>
+<!-- #111111 → neutral-900 or gray-900
+
+#333333 → neutral-700 -->
+
+<section class="bg-gray-50 dark:bg-gray-900">
+  <div
+    class="flex flex-col items-center justify-center font-poppins px-6 py-8 mx-auto md:h-screen lg:py-0"
+  >
+    <!-- <a
+      href="#"
+      class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+    >
+      <img
+        class="w-8 h-8 mr-2"
+        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+        alt="logo"
+      />
+      Flowbite
+    </a> -->
+
+    <div
+      class="w-full bg-white rounded-3xl shadow dark:border md:mt-0 sm:max-w-xl xl:p-0 border-1 border-gray-500/50 dark:bg-gray-800 dark:border-gray-700"
+    >
+      <div class="p-8 md:px-14 py-10 space-y-4 md:space-y-6 sm:p-8">
+        <h1
+          class="text-center text-2xl md:text-3xl font-medium leading-tight tracking-tight text-gray-900 dark:text-white"
+        >
+          Sign up
+        </h1>
+
+        <form
+          class="space-y-1 md:space-y-6"
+          [formGroup]="registerForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <label
+            for="name"
+            class="block mb-1 font-normal text-sm md:text-base text-gray-500 dark:text-white"
+            >Your name</label
+          >
+          <div class="flex gap-4 pt-1">
+            <mat-form-field appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input
+                matInput
+                type="text"
+                name="firstName"
+                id="firstName"
+                formControlName="firstName"
+                autocomplete="given-name"
+                required=""
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input
+                matInput
+                type="text"
+                name="lastName"
+                id="lastName"
+                formControlName="lastName"
+                autocomplete="family-name"
+                placeholder="Simple placeholder"
+                required=""
+              />
+            </mat-form-field>
+          </div>
+
+          <label
+            for="email"
+            class="block mb-1 font-normal text-sm md:text-base text-gray-500 dark:text-white"
+            >Your email</label
+          >
+          <mat-form-field
+            appearance="outline"
+            class="w-full dark:mat-input-element"
+          >
+            <input
+              matInput
+              type="email"
+              name="email"
+              id="email"
+              formControlName="email"
+              autocomplete="email"
+              placeholder="name@company.com"
+              required=""
+            />
+            @if (emailFormControl.hasError('email') &&
+            !emailFormControl.hasError('required')) {
+            <mat-error>Please enter a valid email address</mat-error>
+            } @if (emailFormControl.hasError('required')) {
+            <mat-error>Email is <strong>required</strong></mat-error>
+            }
+          </mat-form-field>
+
+          <label
+            for="password"
+            class="block mb-1 font-normal text-sm md:text-base text-gray-500 dark:text-white"
+            >Password</label
+          >
+          <mat-form-field appearance="outline" class="w-full">
+            <input
+              matInput
+              minlength="8"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              autocomplete="current-password"
+              name="password"
+              id="password"
+              placeholder="••••••••"
+              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 md:p-5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required=""
+            />
+
+            @if (passwordFormControl.hasError('minlength')) {
+            <mat-error>Password must be at least 8 characters long</mat-error>
+            } @if (passwordFormControl.hasError('required')) {
+            <mat-error>Password is <strong>required</strong></mat-error>
+            }
+
+            <button
+              matSuffix
+              type="button"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="
+                showPassword ? 'Hide password' : 'Show password'
+              "
+              [attr.aria-pressed]="showPassword"
+              class="ml-2 px-2 py-1 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
+            >
+              {{ showPassword ? "Hide" : "Show" }}
+            </button>
+          </mat-form-field>
+
+          <label
+            for="confirmPassword"
+            class="block mb-1 font-normal text-sm md:text-base text-gray-500 dark:text-white"
+            >Confirm Password</label
+          >
+          <mat-form-field appearance="outline" class="w-full">
+            <input
+              matInput
+              minlength="8"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="confirmPassword"
+              autocomplete="new-password"
+              name="confirmPassword"
+              id="confirmPassword"
+              placeholder="••••••••"
+              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 md:p-5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required=""
+            />
+            @if (confirmPasswordFormControl.hasError('required')) {
+            <mat-error>Confirm Password is <strong>required</strong></mat-error>
+            }
+          </mat-form-field>
+
+          <div>
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              class="signUp-button w-full"
+              [disabled]="isLoading"
+            >
+              <span class="font-medium text-xl md:text-2xl" *ngIf="!isLoading"
+                >Sign up</span
+              >
+
+              <mat-spinner
+                *ngIf="isLoading"
+                diameter="30"
+                class="spinner mx-auto"
+              ></mat-spinner>
+            </button>
+          </div>
+
+          <p
+            class="text-center text-sm font-regular text-neutral-700 dark:text-gray-400"
+          >
+            By continuing, you agree to the
+            <a
+              href="#"
+              class="font-medium text-neutral-900 hover:underline dark:text-primary-500"
+              >Terms of use</a
+            >
+            and
+            <a
+              href="#"
+              class="font-medium text-neutral-900 hover:underline dark:text-primary-500"
+              >Privacy Policy</a
+            >
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
