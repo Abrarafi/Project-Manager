@@ -1,0 +1,215 @@
+<header class="bg-white shadow-sm border-b border-gray-200">
+  <div class="px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center justify-between">
+      <!-- Left section with back button and title -->
+      <div class="flex items-center space-x-4">
+        <button
+          (click)="onBack()"
+          class="text-gray-600 hover:text-gray-900 focus:outline-none p-1 pt-2"
+          aria-label="Go back"
+        >
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1 class="text-2xl font-semibold text-gray-600">{{ boardTitle }}</h1>
+      </div>
+
+      <!-- Right section with actions -->
+      <div class="flex items-center space-x-4" *ngIf="showActions">
+        <!-- Members List Button -->
+        <div class="relative">
+          <button
+            (click)="toggleMembersList()"
+            class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none p-1"
+            aria-label="Toggle members list"
+          >
+            <span class="flex -space-x-2">
+              <!-- <span *ngFor="let member of members.slice(0, 3)" 
+                    class="relative z-0 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 border-2 border-white text-sm font-medium text-gray-700">
+                {{ member.avatar }}
+              </span> -->
+            </span>
+            <mat-icon
+              [class.transform]="isMembersListOpen"
+              [class.rotate-180]="isMembersListOpen"
+            >
+              expand_more
+            </mat-icon>
+          </button>
+
+          <!-- Members Dropdown -->
+          <!-- <div *ngIf="isMembersListOpen"
+               class="absolute right-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+            <div class="py-1">
+              <div *ngFor="let member of members"
+                   class="px-4 py-2 flex items-center justify-between hover:bg-gray-100">
+                <div class="flex items-center space-x-3">
+                  <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-sm font-medium text-gray-700">
+                    {{ member.avatar }}
+                  </span>
+                  <div>
+                    <p class="text-sm font-medium text-gray-900">{{ member.name }}</p>
+                    <p class="text-xs text-gray-500">{{ member.role }}</p>
+                  </div>
+                </div>
+              </div>
+              <button
+                (click)="onInviteMembers()"
+                class="w-full text-left px-4 py-2 text-sm text-blue-600 hover:bg-gray-100 flex items-center">
+                <mat-icon class="mr-2">person_add</mat-icon>
+                Invite Members
+              </button>
+            </div>
+          </div> -->
+        </div>
+
+        <!-- Share Button -->
+        <div class="relative">
+          <button
+            (click)="toggleShareDropdown()"
+            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#11111180] hover:bg-gray-500 focus:outline-none"
+            aria-label="Share board"
+          >
+            <mat-icon fontSet="material-icons" class="mr-2">link</mat-icon>
+            Share
+          </button>
+
+          <!-- Share Dropdown -->
+          <div
+            *ngIf="isShareDropdownOpen"
+            class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+          >
+            <div class="py-1">
+              <button
+                (click)="copyBoardLink()"
+                class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+              >
+                <mat-icon class="mr-2">link</mat-icon>
+                Copy Link
+              </button>
+              <button
+                (click)="onShareBoard()"
+                class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+              >
+                <mat-icon class="mr-2">share</mat-icon>
+                Share Settings
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Column Button -->
+        <button
+          (click)="onAddColumn()"
+          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#11111180] hover:bg-gray-500 focus:outline-none"
+          aria-label="Add new column"
+        >
+          <mat-icon class="mr-2">add</mat-icon>
+          Add Column
+        </button>
+
+        <!-- Menu Button -->
+        <div class="relative">
+          <button
+            (click)="toggleMenu()"
+            class="flex items-center justify-center text-gray-600 rounded-xl p-1 focus:outline-none"
+            aria-label="Open menu"
+          >
+            <mat-icon class="transition-transform duration-200 hover:scale-125"
+              >more_vert</mat-icon
+            >
+          </button>
+
+          <!-- Menu Dropdown -->
+          <div
+            *ngIf="isMenuOpen"
+            @menuAnimation
+            class="absolute right-0 w-60 ring-black ring-opacity-5 z-50 px-5 py-3 dark:bg-gray-800 bg-white rounded-lg shadow border dark:border-transparent mt-5"
+          >
+            <ul class="space-y-3 dark:text-white">
+              <li class="font-medium">
+                <a
+                  href="#"
+                  class="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700"
+                >
+                  <div class="mr-3">
+                    <!-- <svg
+                      class="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      ></path>
+                    </svg> -->
+                    <mat-icon>settings</mat-icon>
+                  </div>
+                  Account
+                </a>
+              </li>
+              <li class="font-medium">
+                <a
+                  href="#"
+                  class="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700"
+                >
+                  <div class="mr-3">
+                    <svg
+                      class="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                      ></path>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      ></path>
+                    </svg>
+                  </div>
+                  Setting
+                </a>
+              </li>
+              <hr class="dark:border-gray-700" />
+              <li class="font-medium">
+                <a
+                  href="#"
+                  class="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-red-600"
+                >
+                  <div class="mr-3 text-red-600">
+                    <svg
+                      class="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      ></path>
+                    </svg>
+                  </div>
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
