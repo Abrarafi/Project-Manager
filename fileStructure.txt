@@ -1,0 +1,54 @@
+my-angular-app/
+│
+├── 📁 src/
+│   ├── 📁 app/
+│   │   ├── 📁 core/                 # Core module: singleton services, guards, interceptors
+│   │   │   ├── services/
+│   │   │   ├── guards/
+│   │   │   ├── interceptors/
+│   │   │   ├── core.module.ts
+│   │   │   └── index.ts
+│   │   │
+│   │   ├── 📁 shared/               # Shared module: reusable components, pipes, directives
+│   │   │   ├── components/
+│   │   │   ├── directives/
+│   │   │   ├── pipes/
+│   │   │   ├── shared.module.ts
+│   │   │   └── index.ts
+│   │   │
+│   │   ├── 📁 features/             # Feature modules by domain (lazy-loaded if needed)
+│   │   │   ├── 📁 dashboard/
+│   │   │   │   ├── components/
+│   │   │   │   ├── pages/
+│   │   │   │   ├── services/
+│   │   │   │   ├── dashboard-routing.module.ts
+│   │   │   │   └── dashboard.module.ts
+│   │   │   │
+│   │   │   ├── 📁 auth/
+│   │   │   │   ├── components/
+│   │   │   │   ├── pages/
+│   │   │   │   ├── services/
+│   │   │   │   ├── auth-routing.module.ts
+│   │   │   │   └── auth.module.ts
+│   │   │   │
+│   │   │   └── ... more features ...
+│   │   │
+│   │   ├── 📁 layout/               # Global layout (e.g., navbars, sidebars, shells)
+│   │   │   ├── header/
+│   │   │   ├── footer/
+│   │   │   ├── layout.component.ts
+│   │   │   └── layout.module.ts
+│   │   │
+│   │   ├── app-routing.module.ts   # Top-level routing
+│   │   ├── app.component.ts
+│   │   ├── app.module.ts
+│   │   └── main.ts
+│   │
+│   ├── 📁 assets/                  # Images, fonts, icons, etc.
+│   ├── 📁 environments/            # environment.ts / environment.prod.ts
+│   └── index.html
+│
+├── angular.json
+├── tsconfig.json
+├── package.json
+└── README.md

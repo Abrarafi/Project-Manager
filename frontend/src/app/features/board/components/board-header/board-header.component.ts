@@ -1,17 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  trigger,
-  transition,
-  style,
-  animate,
-} from '@angular/animations';
-
+import { trigger, transition, style, animate } from '@angular/animations';
+import { ClickOutsideDirective } from '../../../../shared/directives/click-outside.directive';
 
 @Component({
   selector: 'app-board-header',
-  imports: [MatIconModule, CommonModule],
+  imports: [MatIconModule, CommonModule, ],
   templateUrl: './board-header.component.html',
   styleUrl: './board-header.component.scss',
   animations: [
@@ -21,7 +16,10 @@ import {
         animate('120ms ease-out', style({ opacity: 1, transform: 'scale(1)' })),
       ]),
       transition(':leave', [
-        animate('100ms ease-in', style({ opacity: 0, transform: 'scale(0.95)' })),
+        animate(
+          '100ms ease-in',
+          style({ opacity: 0, transform: 'scale(0.95)' })
+        ),
       ]),
     ]),
   ],
@@ -35,6 +33,19 @@ export class BoardHeaderComponent {
   isShareDropdownOpen: boolean = false;
   showActions: boolean = true;
   isMenuOpen: boolean = false;
+
+  constructor(private elementRef: ElementRef) {}
+
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.isMembersListOpen = false;
+    this.isBoardSettingsOpen = false;
+    this.isShareDropdownOpen = false;
+    this.isMenuOpen = false;
+    }
+  }
 
   onBack(): void {
     // Logic to handle back navigation
@@ -72,7 +83,5 @@ export class BoardHeaderComponent {
     this.isMenuOpen = !this.isMenuOpen;
     console.log('Menu toggled:', this.isMenuOpen);
   }
-  closeMenu(): void {
-    this.isMenuOpen = false;
-    console.log('Menu closed');}
+  
 }
