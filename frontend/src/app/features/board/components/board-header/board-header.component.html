@@ -63,7 +63,7 @@
         </div>
 
         <!-- Share Button -->
-        <div class="relative">
+        <div class="relative" appClickOutside (clickOutside)="isShareDropdownOpen = false">
           <button
             (click)="toggleShareDropdown()"
             class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#11111180] hover:bg-gray-500 focus:outline-none"
@@ -108,7 +108,7 @@
         </button>
 
         <!-- Menu Button -->
-        <div class="relative">
+        <div class="relative" appClickOutside (clickOutside)="isMenuOpen = false">
           <button
             (click)="toggleMenu()"
             class="flex items-center justify-center text-gray-600 rounded-xl p-1 focus:outline-none"
@@ -122,7 +122,6 @@
           <!-- Menu Dropdown -->
           <div
             *ngIf="isMenuOpen"
-            @menuAnimation
             class="absolute right-0 w-60 ring-black ring-opacity-5 z-50 px-5 py-3 dark:bg-gray-800 bg-white rounded-lg shadow border dark:border-transparent mt-5"
           >
             <ul class="space-y-3 dark:text-white">
