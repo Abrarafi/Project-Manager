@@ -1,5 +1,9 @@
 <div class="h-full flex flex-col">
-  <app-board-header [boardTitle]="'Test Project'" [isProcessing]="false">
+  <app-board-header [boardTitle]="'Test Project'" [isProcessing]="false" 
+                    [showActions]="true"
+                    (back)="onBack()"
+                    (inviteMember)="onInviteMember()"
+                    (addColumn)="onAddColumn()">
   </app-board-header>
   <p>board-view works!</p>
 </div>

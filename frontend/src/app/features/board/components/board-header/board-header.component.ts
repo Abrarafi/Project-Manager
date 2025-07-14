@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ClickOutsideDirective } from '../../../../shared/directives/click-outside.directive';
 import { BoardMemberService } from '../../../../core/services/board-member.service';
 import { BoardMember } from '../../../../shared/interfaces/board';
+import e from 'express';
 
 @Component({
   selector: 'app-board-header',
@@ -14,11 +15,14 @@ import { BoardMember } from '../../../../shared/interfaces/board';
 export class BoardHeaderComponent implements OnInit {
   @Input() boardTitle: string | undefined = 'Board Name Not Found';
   @Input() isProcessing: boolean = false;
+  @Input() showActions: boolean = true; // Controls visibility of action buttons
+  @Output() back= new EventEmitter<void>();
+  @Output() inviteMember = new EventEmitter<void>();
+  @Output() addColumn = new EventEmitter<void>();
 
   isMembersListOpen: boolean = false;
   isBoardSettingsOpen: boolean = false;
   isShareDropdownOpen: boolean = false;
-  showActions: boolean = true;
   isMenuOpen: boolean = false;
 
   members: BoardMember[] = [];
@@ -36,14 +40,13 @@ export class BoardHeaderComponent implements OnInit {
   }
 
   onBack(): void {
-    // Logic to handle back navigation
-    console.log('Back button clicked');
+    this.back.emit();
   }
   
   onInviteMember(): void {
-    // Logic to handle inviting a new member
-    console.log('Invite member clicked');
+    this.inviteMember.emit();
   }
+  
   copyBoardLink(): void {
     // Logic to copy board link to clipboard
     console.log('Copy board link clicked');
@@ -53,13 +56,9 @@ export class BoardHeaderComponent implements OnInit {
     console.log('Share board clicked');
   }
   onAddColumn(): void {
-    // Logic to handle adding a new column
-    console.log('Add column clicked');
+   this.addColumn.emit();
   }
-  onAddCard(): void {
-    // Logic to handle adding a new card
-    console.log('Add card clicked');
-  }
+ 
   toggleMembersList(): void {
     this.isMembersListOpen = !this.isMembersListOpen;
   }
@@ -69,10 +68,10 @@ export class BoardHeaderComponent implements OnInit {
   }
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
-    console.log('Menu toggled:', this.isMenuOpen);
+    
   }
   toggleShareDropdown(): void {
     this.isShareDropdownOpen = !this.isShareDropdownOpen;
-    console.log('Share dropdown toggled:', this.isShareDropdownOpen);
+    
   }
 }

@@ -1,3 +1,6 @@
+<!-- color: bg-[#11111180] -->
+
+
 <header class="bg-white shadow-sm border-b border-gray-200">
   <div class="px-4 sm:px-6 lg:px-8 py-4">
     <div class="flex items-center justify-between">
@@ -41,9 +44,11 @@
           <!-- Members Dropdown -->
           <div
             *ngIf="isMembersListOpen"
-            class="absolute right-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+            appClickOutside
+            (clickOutside)="isMembersListOpen = false"
+            class="absolute right-0 mt-2 w-64 overflow-hidden rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
           >
-            <div class="py-1">
+            <div class="py-">
               <div
                 *ngFor="let member of members"
                 class="px-4 py-2 flex items-center justify-between hover:bg-gray-100"
@@ -64,7 +69,7 @@
               </div>
               <button
                 (click)="onInviteMember()"
-                class="w-full text-left px-4 py-2 text-sm text-blue-600 hover:bg-gray-100 flex items-center"
+                class="w-full text-left px-4 py-3  text-sm text-white bg-[#11111180] hover:bg-gray-500 flex items-center"
               >
                 <mat-icon class="mr-2">person_add</mat-icon>
                 Invite Members
