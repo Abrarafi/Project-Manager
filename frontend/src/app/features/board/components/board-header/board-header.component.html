@@ -22,12 +22,14 @@
             class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none p-1"
             aria-label="Toggle members list"
           >
-            <span class="flex -space-x-2">
-              <!-- <span *ngFor="let member of members.slice(0, 3)" 
-                    class="relative z-0 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 border-2 border-white text-sm font-medium text-gray-700">
+            <div class="flex -space-x-2">
+              <span
+                *ngFor="let member of members.slice(0, 3)"
+                class="relative z-0 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 border-2 border-white text-sm font-medium text-gray-700"
+              >
                 {{ member.avatar }}
-              </span> -->
-            </span>
+              </span>
+            </div>
             <mat-icon
               [class.transform]="isMembersListOpen"
               [class.rotate-180]="isMembersListOpen"
@@ -37,33 +39,46 @@
           </button>
 
           <!-- Members Dropdown -->
-          <!-- <div *ngIf="isMembersListOpen"
-               class="absolute right-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+          <div
+            *ngIf="isMembersListOpen"
+            class="absolute right-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
+          >
             <div class="py-1">
-              <div *ngFor="let member of members"
-                   class="px-4 py-2 flex items-center justify-between hover:bg-gray-100">
+              <div
+                *ngFor="let member of members"
+                class="px-4 py-2 flex items-center justify-between hover:bg-gray-100"
+              >
                 <div class="flex items-center space-x-3">
-                  <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-sm font-medium text-gray-700">
+                  <span
+                    class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-sm font-medium text-gray-700"
+                  >
                     {{ member.avatar }}
                   </span>
                   <div>
-                    <p class="text-sm font-medium text-gray-900">{{ member.name }}</p>
+                    <p class="text-sm font-medium text-gray-900">
+                      {{ member.name }}
+                    </p>
                     <p class="text-xs text-gray-500">{{ member.role }}</p>
                   </div>
                 </div>
               </div>
               <button
-                (click)="onInviteMembers()"
-                class="w-full text-left px-4 py-2 text-sm text-blue-600 hover:bg-gray-100 flex items-center">
+                (click)="onInviteMember()"
+                class="w-full text-left px-4 py-2 text-sm text-blue-600 hover:bg-gray-100 flex items-center"
+              >
                 <mat-icon class="mr-2">person_add</mat-icon>
                 Invite Members
               </button>
             </div>
-          </div> -->
+          </div>
         </div>
 
         <!-- Share Button -->
-        <div class="relative" appClickOutside (clickOutside)="isShareDropdownOpen = false">
+        <div
+          class="relative"
+          appClickOutside
+          (clickOutside)="isShareDropdownOpen = false"
+        >
           <button
             (click)="toggleShareDropdown()"
             class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#11111180] hover:bg-gray-500 focus:outline-none"
@@ -108,7 +123,11 @@
         </button>
 
         <!-- Menu Button -->
-        <div class="relative" appClickOutside (clickOutside)="isMenuOpen = false">
+        <div
+          class="relative"
+          appClickOutside
+          (clickOutside)="isMenuOpen = false"
+        >
           <button
             (click)="toggleMenu()"
             class="flex items-center justify-center text-gray-600 rounded-xl p-1 focus:outline-none"
@@ -145,7 +164,6 @@
                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                       ></path>
                     </svg>
-                    
                   </div>
                   Account
                 </a>

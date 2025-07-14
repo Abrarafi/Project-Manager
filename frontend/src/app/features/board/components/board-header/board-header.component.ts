@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { ClickOutsideDirective } from '../../../../shared/directives/click-outside.directive';
+import { BoardMemberService } from '../../../../core/services/board-member.service';
+import { BoardMember } from '../../../../shared/interfaces/board';
 
 @Component({
   selector: 'app-board-header',
@@ -10,7 +11,7 @@ import { ClickOutsideDirective } from '../../../../shared/directives/click-outsi
   templateUrl: './board-header.component.html',
   styleUrl: './board-header.component.scss',
 })
-export class BoardHeaderComponent {
+export class BoardHeaderComponent implements OnInit {
   @Input() boardTitle: string | undefined = 'Board Name Not Found';
   @Input() isProcessing: boolean = false;
 
@@ -20,31 +21,29 @@ export class BoardHeaderComponent {
   showActions: boolean = true;
   isMenuOpen: boolean = false;
 
-  constructor(private elementRef: ElementRef) {}
+  members: BoardMember[] = [];
 
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.isMembersListOpen = false;
-      this.isBoardSettingsOpen = false;
-      this.isShareDropdownOpen = false;
-      this.isMenuOpen = false;
-    }
+  constructor(
+    private elementRef: ElementRef,
+    private boardMemberService: BoardMemberService
+  ) {}
+  
+  ngOnInit(): void {
+    this.boardMemberService.getMembers().subscribe((members) => {
+      this.members = members;
+    });
+    console.log(this.members);
   }
 
   onBack(): void {
     // Logic to handle back navigation
     console.log('Back button clicked');
   }
-  toggleMembersList(): void {
-    // Logic to toggle members list visibility
-    console.log('Toggle members list clicked');
+  
+  onInviteMember(): void {
+    // Logic to handle inviting a new member
+    console.log('Invite member clicked');
   }
-  toggleBoardSettings(): void {
-    // Logic to toggle board settings visibility
-    console.log('Toggle board settings clicked');
-  }
-
   copyBoardLink(): void {
     // Logic to copy board link to clipboard
     console.log('Copy board link clicked');
@@ -60,6 +59,13 @@ export class BoardHeaderComponent {
   onAddCard(): void {
     // Logic to handle adding a new card
     console.log('Add card clicked');
+  }
+  toggleMembersList(): void {
+    this.isMembersListOpen = !this.isMembersListOpen;
+  }
+  toggleBoardSettings(): void {
+    // Logic to toggle board settings visibility
+    console.log('Toggle board settings clicked');
   }
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
