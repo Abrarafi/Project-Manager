@@ -32,7 +32,6 @@ export class BoardViewComponent {
       width: '500px',
       data: { mode: 'create', boardId: this.board.id }
     });
-    // Logic to handle adding a new column
     console.log('Add column clicked');
   }
 

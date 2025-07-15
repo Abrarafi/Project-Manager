@@ -1,24 +1,92 @@
 {
   "users": [
-    { "id": "1", "email": "alice@example.com", "name": "Alice Johnson", "role": "PROJECT_MANAGER" },
-    { "id": "2", "email": "bob@example.com", "name": "Bob Smith", "role": "TEAM_MEMBER" },
-    { "id": "3", "email": "carol@example.com", "name": "Carol Lee", "role": "TEAM_MEMBER" },
-    { "id": "4", "email": "david@example.com", "name": "David Kim", "role": "PROJECT_MANAGER" },
-    { "id": "5", "email": "eva@example.com", "name": "Eva Brown", "role": "TEAM_MEMBER" },
-    { "id": "6", "email": "frank@example.com", "name": "Frank Harris", "role": "TEAM_MEMBER" },
-    { "id": "7", "email": "grace@example.com", "name": "Grace Hall", "role": "PROJECT_MANAGER" },
-    { "id": "8", "email": "henry@example.com", "name": "Henry Adams", "role": "TEAM_MEMBER" },
-    { "id": "9", "email": "isabel@example.com", "name": "Isabel Green", "role": "TEAM_MEMBER" },
-    { "id": "10", "email": "jack@example.com", "name": "Jack Turner", "role": "PROJECT_MANAGER" },
-    { "id": "11", "email": "kate@example.com", "name": "Kate Lewis", "role": "TEAM_MEMBER" },
-    { "id": "12", "email": "leo@example.com", "name": "Leo Walker", "role": "TEAM_MEMBER" },
-    { "id": "13", "email": "mia@example.com", "name": "Mia Scott", "role": "PROJECT_MANAGER" },
-    { "id": "14", "email": "nate@example.com", "name": "Nate Baker", "role": "TEAM_MEMBER" },
-    { "id": "15", "email": "olivia@example.com", "name": "Olivia Young", "role": "TEAM_MEMBER" },
-    { "id": "16", "email": "peter@example.com", "name": "Peter King", "role": "PROJECT_MANAGER" },
-    { "id": "17", "email": "quinn@example.com", "name": "Quinn Rivera", "role": "TEAM_MEMBER" },
-    { "id": "18", "email": "ruby@example.com", "name": "Ruby Cox", "role": "TEAM_MEMBER" },
-    { "id": "19", "email": "sam@example.com", "name": "Sam Murphy", "role": "PROJECT_MANAGER" },
-    { "id": "20", "email": "tina@example.com", "name": "Tina Rogers", "role": "TEAM_MEMBER" }
+    { "id": "1", "email": "alice@example.com", "name": "Alice Johnson"},
+    { "id": "2", "email": "bob@example.com", "name": "Bob Smith"  },
+    { "id": "3", "email": "carol@example.com", "name": "Carol Lee"  },
+    { "id": "4", "email": "david@example.com", "name": "David Kim"},
+    { "id": "5", "email": "eva@example.com", "name": "Eva Brown"},
+    { "id": "6", "email": "frank@example.com", "name": "Frank Harris"},
+    { "id": "7", "email": "grace@example.com", "name": "Grace Hall"},
+    { "id": "8", "email": "henry@example.com", "name": "Henry Adams" },
+    { "id": "9", "email": "isabel@example.com", "name": "Isabel Green" },
+    { "id": "10", "email": "jack@example.com", "name": "Jack Turner"},
+    { "id": "11", "email": "kate@example.com", "name": "Kate Lewis"  },
+    { "id": "12", "email": "leo@example.com", "name": "Leo Walker" },
+    { "id": "13", "email": "mia@example.com", "name": "Mia Scott"}
+   
+  ],
+  
+  "boards": [
+    {
+      "id": "1",
+      "name": "Project Alpha",
+      "description": "UI/UX Design for Alpha release",
+      "lastModified": "2025-07-15T10:00:00.000Z",
+      "members": [{
+        "id": "1",
+        "name": "Alice Johnson",
+        "email": "alice@example.com",
+        "role": "Admin",
+        "avatar": "https://i.pravatar.cc/150?img=1"
+      }
+      , {
+        "id": "2",
+        "name": "Bob Smith",
+        "email": "bob@example.com",
+        "role": "Member",
+        "avatar": "https://i.pravatar.cc/150?img=2"
+      }, {
+        "id": "3",
+        "name": "Carol Lee",
+        "email": "carol@example.com",
+        "role": "Member",
+        "avatar": "https://i.pravatar.cc/150?img=3"
+      }
+    ],
+      "thumbnailColor": "#60A5FA",
+      "createdAt": "2025-07-01T09:00:00.000Z",
+      "updatedAt": "2025-07-15T10:00:00.000Z",
+      "columns": [
+        {
+          "id": "col1",
+          "name": "To Do",
+          "description": "Tasks to be started",
+          "wip": 3,
+          "color": "#F87171",
+          "boardId": "board1",
+          "cards": [],
+          "createdAt": "2025-07-01T09:05:00.000Z",
+          "updatedAt": "2025-07-15T10:00:00.000Z"
+        },
+        {
+          "id": "col2",
+          "name": "In Progress",
+          "description": "Ongoing work",
+          "wip": 2,
+          "color": "#FBBF24",
+          "boardId": "board1",
+          "cards": [],
+          "createdAt": "2025-07-01T09:10:00.000Z",
+          "updatedAt": "2025-07-15T10:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Project Beta",
+      "description": "Backend Services",
+      "lastModified": "2025-07-14T14:00:00.000Z",
+      "members": {
+        "id": "user2",
+        "name": "Bob Smith",
+        "email": "bob@example.com",
+        "role": "TEAM_MEMBER",
+        "avatar": "https://i.pravatar.cc/150?img=2"
+      },
+      "thumbnailColor": "#34D399",
+      "createdAt": "2025-07-05T09:00:00.000Z",
+      "updatedAt": "2025-07-14T14:00:00.000Z",
+      "columns": []
+    }
   ]
 }

@@ -1,9 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ClickOutsideDirective } from '../../../../shared/directives/click-outside.directive';
 import { BoardMemberService } from '../../../../core/services/board-member.service';
-import { BoardMember } from '../../../../shared/interfaces/board';
+import { BoardMember } from '../../../../shared/models/board.model';
 import e from 'express';
 
 @Component({
@@ -16,7 +24,7 @@ export class BoardHeaderComponent implements OnInit {
   @Input() boardTitle: string | undefined = 'Board Name Not Found';
   @Input() isProcessing: boolean = false;
   @Input() showActions: boolean = true; // Controls visibility of action buttons
-  @Output() back= new EventEmitter<void>();
+  @Output() back = new EventEmitter<void>();
   @Output() inviteMember = new EventEmitter<void>();
   @Output() addColumn = new EventEmitter<void>();
 
@@ -31,9 +39,10 @@ export class BoardHeaderComponent implements OnInit {
     private elementRef: ElementRef,
     private boardMemberService: BoardMemberService
   ) {}
-  
+
   ngOnInit(): void {
-    this.boardMemberService.getMembers().subscribe((members) => {
+    const boardId = '1';
+    this.boardMemberService.getMembers(boardId).subscribe((members) => {
       this.members = members;
     });
     console.log(this.members);
@@ -42,11 +51,11 @@ export class BoardHeaderComponent implements OnInit {
   onBack(): void {
     this.back.emit();
   }
-  
+
   onInviteMember(): void {
     this.inviteMember.emit();
   }
-  
+
   copyBoardLink(): void {
     // Logic to copy board link to clipboard
     console.log('Copy board link clicked');
@@ -56,9 +65,9 @@ export class BoardHeaderComponent implements OnInit {
     console.log('Share board clicked');
   }
   onAddColumn(): void {
-   this.addColumn.emit();
+    this.addColumn.emit();
   }
- 
+
   toggleMembersList(): void {
     this.isMembersListOpen = !this.isMembersListOpen;
   }
@@ -68,10 +77,8 @@ export class BoardHeaderComponent implements OnInit {
   }
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
-    
   }
   toggleShareDropdown(): void {
     this.isShareDropdownOpen = !this.isShareDropdownOpen;
-    
   }
 }
