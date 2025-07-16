@@ -26,7 +26,6 @@
               <div class="px-4 py-2 border-b">
                 <p class="text-sm font-medium text-gray-900">{{ userProfile?.name }}</p>
                 <p class="text-xs text-gray-500">{{ userProfile?.email }}</p>
-                <p class="text-xs font-medium text-gray-700 mt-1">{{ userProfile?.role }}</p>
               </div>
               <button (click)="openProfileSettings()" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 Profile Settings
@@ -59,7 +58,7 @@
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <!-- Board Cards -->
       <div *ngFor="let board of boards"
-           (click)="board._id && openBoard(board._id)"
+           (click)="board.id && openBoard(board.id)"
            class="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
         <!-- Board Preview -->
         <div [style.background-color]="board.thumbnailColor"
