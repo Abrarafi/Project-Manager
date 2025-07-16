@@ -1,19 +1,26 @@
 import { Component } from '@angular/core';
-import { BoardHeaderComponent } from "../../features/board/components/board-header/board-header.component";
+import { BoardHeaderComponent } from '../../features/board/components/board-header/board-header.component';
 import { ColumnDialogComponent } from '../../shared/dialogs/column-dialog/column-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Board, BoardMember } from '../../shared/models/board.model';
 
 @Component({
   selector: 'app-board-view',
   imports: [BoardHeaderComponent],
   templateUrl: './board-view.component.html',
-  styleUrl: './board-view.component.scss'
+  styleUrl: './board-view.component.scss',
 })
 export class BoardViewComponent {
-  board: any = {
-    id: '1',
-    title: 'Test Project',
-    columns: []
+  board: Board = {
+    id: '',
+    name: '',
+    description: '',
+    columns: [],
+    lastModified: new Date(),
+    members: [],
+    thumbnailColor: '',
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   constructor(private dialog: MatDialog) {}
@@ -30,9 +37,8 @@ export class BoardViewComponent {
   onAddColumn(): void {
     const dialogRef = this.dialog.open(ColumnDialogComponent, {
       width: '500px',
-      data: { mode: 'create', boardId: this.board.id }
+      data: { mode: 'create', boardId: this.board.id },
     });
     console.log('Add column clicked');
   }
-
 }

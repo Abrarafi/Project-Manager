@@ -27,20 +27,20 @@
         "name": "Alice Johnson",
         "email": "alice@example.com",
         "role": "Admin",
-        "avatar": "https://i.pravatar.cc/150?img=1"
+        "avatar": "AJ"
       }
       , {
         "id": "2",
         "name": "Bob Smith",
         "email": "bob@example.com",
         "role": "Member",
-        "avatar": "https://i.pravatar.cc/150?img=2"
+        "avatar": "BS"
       }, {
         "id": "3",
         "name": "Carol Lee",
         "email": "carol@example.com",
-        "role": "Member",
-        "avatar": "https://i.pravatar.cc/150?img=3"
+        "role": "Member"
+       
       }
     ],
       "thumbnailColor": "#60A5FA",

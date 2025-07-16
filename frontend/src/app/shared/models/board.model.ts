@@ -15,7 +15,7 @@ export interface Board {
     description: string;
     lastModified: Date;
     columns?: Column[];
-    members: BoardMember;
+    members: BoardMember[];
     thumbnailColor: string;
     createdAt: Date;
     updatedAt: Date;
