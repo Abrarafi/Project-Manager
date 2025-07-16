@@ -100,17 +100,24 @@
   }
 
   .sidebar-item {
+    display: flex;
+    align-items: center;
+
     i {
-      margin-right: 0;
+      margin-right: 0; // Removes space between icon and text
     }
+
     &-text,
     &-arrow {
       opacity: 0;
       width: 0;
       overflow: hidden;
+      white-space: nowrap;
+      transition: opacity 0.2s ease, width 0.2s ease;
     }
-    
   }
+
+
 
   .sidebar-submenu {
     display: none;

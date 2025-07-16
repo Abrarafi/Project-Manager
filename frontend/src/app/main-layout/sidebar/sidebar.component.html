@@ -7,13 +7,13 @@
   <div class="sidebar-menu">
     <ul>
       <ng-container *ngFor="let item of menuItems">
-        <li class="sidebar-menu-item">
+        <li class="sidebar-menu-item ">
           <a
             *ngIf="!item.children"
             [routerLink]="item.route"
             routerLinkActive="active-menu-item"
             [routerLinkActiveOptions]="{ exact: true }"
-            class="sidebar-item flex items-center "
+            class="sidebar-item "
           >
             <i [class]="item.icon"></i>
             <span class="sidebar-item-text">{{ item.label }}</span>

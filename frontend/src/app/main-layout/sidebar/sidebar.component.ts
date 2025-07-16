@@ -31,22 +31,22 @@ constructor(private router: Router) { }
       // ]
     },
     {
-      icon: 'fas fa-home',
+      icon: 'fas fa-project-diagram',
       label: 'Active Projects',
       route: '/dashboard',
     },
      {
-      icon: 'fas fa-home',
+      icon: 'fas fa-tasks',
       label: 'My Tasks',
       route: '/dashboard',
     },
      {
-      icon: 'fas fa-home',
+      icon: 'fas fa-layer-group',
       label: 'My Projects',
       route: '/dashboard',
     },
      {
-      icon: 'fas fa-home',
+      icon: 'fas fa-history',
       label: 'Project History',
       route: '/dashboard',
     },
