@@ -3,9 +3,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { Board } from '../../shared/models/board.model';
 import { User } from '../../shared/models/user.model';
 import { CommonModule } from '@angular/common';
+import { SidenavComponent } from "../../shared/components/sidenav/sidenav.component";
+import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-dashboard-view',
-  imports: [MatIconModule,CommonModule],
+  imports: [MatIconModule, CommonModule, SidenavComponent, RouterOutlet],
   templateUrl: './dashboard-view.component.html',
   styleUrl: './dashboard-view.component.scss'
 })

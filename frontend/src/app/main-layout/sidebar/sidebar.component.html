@@ -1,0 +1,56 @@
+<div class="sidebar bg-gray-700" [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }">
+  <div class="sidebar-header">
+    <a href="#" class="sidebar-logo">{{
+      isSidebarCollapsed ? "PM" : "Project Manager"
+    }}</a>
+  </div>
+  <div class="sidebar-menu">
+    <ul>
+      <ng-container *ngFor="let item of menuItems">
+        <li class="sidebar-menu-item">
+          <a
+            *ngIf="!item.children"
+            [routerLink]="item.route"
+            routerLinkActive="active-menu-item"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="sidebar-item flex items-center "
+          >
+            <i [class]="item.icon"></i>
+            <span class="sidebar-item-text">{{ item.label }}</span>
+            <span class="w-2 h-2 bg-white rounded-full ml-auto mr-3" *ngIf="isRouteActive(item.route)"></span>
+          </a>
+          <a
+            *ngIf="item.children"
+            href="#"
+            class="sidebar-item"
+            [ngClass]="{
+              'has-children': item.children,
+              'menu-item-active': item.isOpen
+            }"
+            (click)="toggleMenuItem(item)"
+          >
+            <i [class]="item.icon"></i>
+            <span class="sidebar-item-text">{{ item.label }}</span>
+            <i
+              *ngIf="item.children && !isSidebarCollapsed"
+              class="fas fa-chevron-down sidebar-item-arrow"
+              [ngClass]="{ rotated: item.isOpen }"
+            ></i>
+          </a>
+
+          <ul
+            *ngIf="item.children && !isSidebarCollapsed && item.isOpen"
+            class="sidebar-submenu"
+          >
+            <li *ngFor="let child of item.children">
+              <a href="#" class="sidebar-item sidebar-subitem">
+                <i [class]="child.icon"></i>
+                <span class="sidebar-item-text">{{ child.label }}</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</div>

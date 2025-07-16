@@ -1,0 +1,35 @@
+<!-- <div class="flex h-screen"> -->
+<!-- Sidebar -->
+<!-- <aside class="w-64 bg-gray-900 text-white flex-shrink-0">
+    <app-sidebar></app-sidebar>
+  </aside> -->
+<!-- Main Content -->
+<!-- <main class="flex-1 bg-gray-100 overflow-auto">
+    <router-outlet></router-outlet>
+  </main>
+</div> -->
+
+<div class="app-container">
+  <div class="position-relative">
+    <app-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed ? 'fas fa-arrow-right' : 'fas fa-arrow-left'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <router-outlet></router-outlet>
+  </main>
+</div>
