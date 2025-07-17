@@ -33,22 +33,22 @@ constructor(private router: Router) { }
     {
       icon: 'fas fa-project-diagram',
       label: 'Active Projects',
-      route: '/dashboard',
+      route: '/projects/active',
     },
      {
       icon: 'fas fa-tasks',
       label: 'My Tasks',
-      route: '/dashboard',
+      route: '/tasks/my',
     },
      {
       icon: 'fas fa-layer-group',
       label: 'My Projects',
-      route: '/dashboard',
+      route: '/projects/my',
     },
      {
       icon: 'fas fa-history',
       label: 'Project History',
-      route: '/dashboard',
+      route: '/projects/history',
     },
     {
       icon: 'fas fa-cog',
