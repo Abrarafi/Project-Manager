@@ -11,7 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
+import { passwordMatchValidator } from '../../../shared/validators/password-match.validator';
 
 @Component({
   selector: 'app-register',
@@ -31,27 +33,75 @@ export class RegisterComponent {
   registerForm: FormGroup;
   showPassword = false;
   isLoading = false;
+  errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: RouterModule) {
-    this.registerForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
-    });
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {
+    this.registerForm = this.fb.group(
+      {
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(8)]],
+        confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
+      },
+      { validators: passwordMatchValidator }
+    );
   }
   async onSubmit() {
-   if (this.registerForm.valid) {
-     this.isLoading = true;
-     // Simulate API call
-     await new Promise((resolve) => setTimeout(resolve, 2000));
-     console.log('Registration successful');
-     this.isLoading = false;
-   }
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      this.errorMessage = 'Please fill out the form correctly.';
+      return;
+    }
+    if (this.registerForm.hasError('passwordMismatch')) {
+      this.errorMessage = 'Passwords do not match';
+      return;
+    }
+
+    this.isLoading = true;
+    this.errorMessage = null;
+
+    // this.authService.register(this.registerForm.value).subscribe({
+    // next: async (user) => {
+    //   this.isLoading = false;
+    //   // Optionally, you can redirect to a different page after successful registration
+    //   await this.router.navigate(['/login']);
+    // },
+    // error: (error) => {
+    //   this.isLoading = false;
+    //   this.errorMessage = error?.message || 'Registration failed. Please try again.';
+    // }
+
+    try {
+      this.authService.register(this.registerForm.value).subscribe({
+        next: async () => {
+          await this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          this.errorMessage =
+            error?.message || 'Registration failed. Please try again.';
+        },
+      });
+    } catch (error) {
+      this.errorMessage = 'An unexpected error occurred. Please try again.';
+    } finally {
+      this.isLoading = false;
+    }
   }
+
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
+  }
+  get firstNameFormControl(): FormControl {
+    return this.registerForm.get('firstName') as FormControl;
+  }
+
+  get lastNameFormControl(): FormControl {
+    return this.registerForm.get('lastName') as FormControl;
   }
   get emailFormControl(): FormControl {
     return this.registerForm.get('email') as FormControl;

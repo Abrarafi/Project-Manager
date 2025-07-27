@@ -1,9 +1,13 @@
+import { Board } from "./board.model";
+
 export interface User {
     id: string;
     email: string;
-    name: string;
+    firstName: string;
+    lastName:string;
     avatar?: string;          // Optional profile picture URL
-    boards?: string[];        // Array of board IDs the user belongs to
+    ownBoards?: Board[];        // Array of boards the user owns
+    memberBoards?: Board[];     // Array of boards the user is a member of
     createdAt?: Date;         // From backend
     updatedAt?: Date;         // From backend
     token?: string;          // JWT token for authenticated users

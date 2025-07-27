@@ -1,10 +1,12 @@
 import { Column } from "./column.model";
 
+export type BoardRole = 'admin' | 'member';
+
 export interface BoardMember {
   id:string;
   name: string;
   email:string;
-  role: string;
+  role: BoardRole;
   avatar: string;
 }
 
