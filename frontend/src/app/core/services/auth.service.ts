@@ -59,6 +59,7 @@ export class AuthService extends ApiService {
         this.currentUserSubject.next(partialUser);
       }),
       switchMap(() => this.getProfile()), // <- load full profile after login
+      
       catchError((error) => {
         console.error('Login failed', error);
         return throwError(() => new Error('Invalid email or password'));
@@ -66,22 +67,42 @@ export class AuthService extends ApiService {
     );
   }
 
+  // getProfile(): Observable<User> {
+  //   return this.get<User>('/profile').pipe(
+  //     tap((profile) => {
+  //       const currentUser = this.getCurrentUser();
+  //       const updatedUser: User = {
+  //         ...profile,
+  //         token: currentUser?.token, // Preserve the token
+  //       };
+  //       console.log('Fetched user profile:', updatedUser);
+        
+  //       this.storeUserData(updatedUser);
+  //     }),
+  //     catchError((error) => {
+  //       console.error('Failed to fetch profile', error);
+  //       return throwError(() => new Error('Failed to load user profile'));
+  //     })
+  //   );
+  // }
   getProfile(): Observable<User> {
-    return this.get<User>('/profile').pipe(
-      tap((profile) => {
-        const currentUser = this.getCurrentUser();
-        const updatedUser: User = {
-          ...profile,
-          token: currentUser?.token, // Preserve the token
-        };
-        this.storeUserData(updatedUser);
-      }),
-      catchError((error) => {
-        console.error('Failed to fetch profile', error);
-        return throwError(() => new Error('Failed to load user profile'));
-      })
-    );
-  }
+  return this.get<{ status: string; data: { user: User } }>('/profile').pipe(
+    map((res) => res.data.user), // <-- extract the real user object
+    tap((profile) => {
+      const currentUser = this.getCurrentUser();
+      const updatedUser: User = {
+        ...profile,
+        token: currentUser?.token,
+      };
+      console.log('Fetched user profile:', updatedUser);
+      this.storeUserData(updatedUser);
+    }),
+    catchError((error) => {
+      console.error('Failed to fetch profile', error);
+      return throwError(() => new Error('Failed to load user profile'));
+    })
+  );
+}
 
   logout(): void {
     this.post('/signout', {}).subscribe({

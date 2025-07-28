@@ -69,7 +69,7 @@ export class RegisterComponent {
     try {
       this.authService.register(this.registerForm.value).subscribe({
         next: async () => {
-          await this.router.navigate(['/login']);
+          await this.router.navigate(['auth/login']);
         },
         error: (error) => {
           console.error('Registration error:', error);
