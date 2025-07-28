@@ -17,7 +17,7 @@
           >
             <div class="flex items-center space-x-3">
               <span class="text-sm font-medium text-gray-700">{{
-                userProfile?.name
+                userProfile?.firstName + ' ' + userProfile?.lastName
               }}</span>
               <div
                 class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white"
@@ -35,7 +35,7 @@
             <div class="py-1">
               <div class="px-4 py-2 border-b">
                 <p class="text-sm font-medium text-gray-900">
-                  {{ userProfile?.name }}
+                  {{ userProfile?.firstName + ' ' + userProfile?.lastName }}
                 </p>
                 <p class="text-xs text-gray-500">{{ userProfile?.email }}</p>
               </div>

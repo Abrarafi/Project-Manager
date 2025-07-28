@@ -65,16 +65,6 @@ export class RegisterComponent {
     this.isLoading = true;
     this.errorMessage = null;
 
-    // this.authService.register(this.registerForm.value).subscribe({
-    // next: async (user) => {
-    //   this.isLoading = false;
-    //   // Optionally, you can redirect to a different page after successful registration
-    //   await this.router.navigate(['/login']);
-    // },
-    // error: (error) => {
-    //   this.isLoading = false;
-    //   this.errorMessage = error?.message || 'Registration failed. Please try again.';
-    // }
 
     try {
       this.authService.register(this.registerForm.value).subscribe({
@@ -82,8 +72,25 @@ export class RegisterComponent {
           await this.router.navigate(['/login']);
         },
         error: (error) => {
-          this.errorMessage =
-            error?.message || 'Registration failed. Please try again.';
+          console.error('Registration error:', error);
+
+         // Handle specific backend error for email already in use
+        if (error.status === 400) {
+          // Check different possible error message formats
+          const backendMessage = error.error?.message || 
+                               error.error?.error || 
+                               'Email already in use'; // default if none provided
+          
+          if (backendMessage.toLowerCase().includes('email') && 
+              backendMessage.toLowerCase().includes('already')) {
+            this.errorMessage = 'This email address is already registered. Please use a different email.';
+            this.emailFormControl.setErrors({ emailInUse: true });
+          } else {
+            this.errorMessage = backendMessage;
+          }
+        } else {
+          this.errorMessage = 'Registration failed. Please try again.';
+        }
         },
       });
     } catch (error) {

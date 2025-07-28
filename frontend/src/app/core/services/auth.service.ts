@@ -13,6 +13,7 @@ import {
   throwError,
 } from 'rxjs';
 import { AuthResponse } from '../../shared/models/auth.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class AuthService extends ApiService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(protected override http: HttpClient) {
+  constructor(protected override http: HttpClient, private router: Router) {
     super(http);
     this.loadCurrentUser();
   }
@@ -82,6 +83,23 @@ export class AuthService extends ApiService {
     );
   }
 
+  logout(): void {
+    this.post('/signout', {}).subscribe({
+      next: () => {
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(null);
+        this.router.navigate(['/auth/login']);
+      },
+      error: () => {
+        // Even if the backend fails, clear local state
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(null);
+        this.router.navigate(['/auth/login']);
+      }
+    });
+  }
+
+
   getCurrentUser(): User | null {
     return this.currentUserSubject.value;
   }
@@ -89,6 +107,12 @@ export class AuthService extends ApiService {
     const user = this.getCurrentUser();
     return !!user && !!user.token;
   }
+
+   getToken(): string | null {
+    const user = this.getCurrentUser();
+    return user?.token || null;
+  }
+
 
   private clearUserData(): void {
     localStorage.removeItem('currentUser');

@@ -6,12 +6,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -33,8 +34,10 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   showPassword = false;
   isLoading = false;
+  errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder) {
+
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
@@ -47,16 +50,28 @@ export class LoginComponent implements OnInit {
 
 
   async onSubmit() {
+    
     if(this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
+      console.log('Form submitted:', "invalid form");
       return;
     }
+    console.log('Form submitted:', this.loginForm.value);
       this.isLoading = true;
-      // Simulate a login request
-      setTimeout(() => {
+      this.errorMessage = null;
+     const { email, password } = this.loginForm.value;
+    this.authService.login(email, password).subscribe({
+      next: () => {
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'An error occurred during login. Please try again.';
         this.isLoading = false;
-        console.log('User logged in:', this.loginForm.value);
-      }, 2000);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
   }
 
   togglePasswordVisibility(): void {

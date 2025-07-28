@@ -97,6 +97,9 @@
               {{ showPassword ? "Hide" : "Show" }}
             </button>
           </mat-form-field>
+           <div *ngIf="errorMessage" class="text-red-500 text-sm text-center">
+          {{ errorMessage }}
+        </div>
 
           <div class="flex items-center justify-between">
             <div class="flex items-start">

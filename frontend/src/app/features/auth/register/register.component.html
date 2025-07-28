@@ -27,7 +27,13 @@
         >
           Sign up
         </h1>
-
+        @if (errorMessage) {
+        <div
+          class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-900 dark:text-red-100"
+        >
+          {{ errorMessage }}
+        </div>
+        }
         <form
           class="space-y-1 md:space-y-6"
           [formGroup]="registerForm"
@@ -91,6 +97,9 @@
             } @if (emailFormControl.hasError('required')) {
             <mat-error>Email is <strong>required</strong></mat-error>
             }
+            @if (emailFormControl.hasError('emailInUse')) {
+              <mat-error>This email is already registered</mat-error>
+            }
           </mat-form-field>
 
           <label
@@ -152,6 +161,9 @@
             />
             @if (confirmPasswordFormControl.hasError('required')) {
             <mat-error>Confirm Password is <strong>required</strong></mat-error>
+            }
+            @if (registerForm.hasError('passwordMismatch')) {
+              <mat-error>Passwords do not match</mat-error>
             }
           </mat-form-field>
 

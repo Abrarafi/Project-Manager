@@ -26,7 +26,8 @@ export class DashboardViewComponent implements OnInit {
         this.userProfile = {
             id: '1',
             email: 'user@example.com',
-            name: 'John Doe',
+            firstName: 'John',
+            lastName: 'Doe',
             avatar: 'JD'
         };
     }
