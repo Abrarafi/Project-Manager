@@ -61,13 +61,15 @@ export class DashboardViewComponent implements OnInit {
     ];
   }
   toggleProfileMenu() {
-    // Logic to toggle the profile menu
+    this.isProfileMenuOpen = !this.isProfileMenuOpen;
   }
   openProfileSettings() {
     // Logic to open profile settings
   }
   logout() {
     // Logic to log out the user
+    this.authService.logout();
+    console.log('User logged out');
   }
   createNewBoard() {
     // Logic to create a new board

@@ -59,7 +59,7 @@ export class AuthService extends ApiService {
         this.currentUserSubject.next(partialUser);
       }),
       switchMap(() => this.getProfile()), // <- load full profile after login
-      
+
       catchError((error) => {
         console.error('Login failed', error);
         return throwError(() => new Error('Invalid email or password'));
@@ -76,7 +76,7 @@ export class AuthService extends ApiService {
   //         token: currentUser?.token, // Preserve the token
   //       };
   //       console.log('Fetched user profile:', updatedUser);
-        
+
   //       this.storeUserData(updatedUser);
   //     }),
   //     catchError((error) => {
@@ -86,40 +86,42 @@ export class AuthService extends ApiService {
   //   );
   // }
   getProfile(): Observable<User> {
-  return this.get<{ status: string; data: { user: User } }>('/profile').pipe(
-    map((res) => res.data.user), // <-- extract the real user object
-    tap((profile) => {
-      const currentUser = this.getCurrentUser();
-      const updatedUser: User = {
-        ...profile,
-        token: currentUser?.token,
-      };
-      console.log('Fetched user profile:', updatedUser);
-      this.storeUserData(updatedUser);
-    }),
-    catchError((error) => {
-      console.error('Failed to fetch profile', error);
-      return throwError(() => new Error('Failed to load user profile'));
-    })
-  );
-}
-
-  logout(): void {
-    this.post('/signout', {}).subscribe({
-      next: () => {
-        localStorage.removeItem('currentUser');
-        this.currentUserSubject.next(null);
-        this.router.navigate(['/auth/login']);
-      },
-      error: () => {
-        // Even if the backend fails, clear local state
-        localStorage.removeItem('currentUser');
-        this.currentUserSubject.next(null);
-        this.router.navigate(['/auth/login']);
-      }
-    });
+    return this.get<{ status: string; data: { user: User } }>('/profile').pipe(
+      map((res) => res.data.user), // <-- extract the real user object
+      tap((profile) => {
+        const currentUser = this.getCurrentUser();
+        const updatedUser: User = {
+          ...profile,
+          token: currentUser?.token,
+        };
+        console.log('Fetched user profile:', updatedUser);
+        this.storeUserData(updatedUser);
+      }),
+      catchError((error) => {
+        console.error('Failed to fetch profile', error);
+        return throwError(() => new Error('Failed to load user profile'));
+      })
+    );
   }
 
+  logout(): void {
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+    this.router.navigate(['/auth/login']);
+    // this.post('/signout', {}).subscribe({
+    //   next: () => {
+    //     localStorage.removeItem('currentUser');
+    //     this.currentUserSubject.next(null);
+    //     this.router.navigate(['/auth/login']);
+    //   },
+    //   error: () => {
+    //     // Even if the backend fails, clear local state
+    //     localStorage.removeItem('currentUser');
+    //     this.currentUserSubject.next(null);
+    //     this.router.navigate(['/auth/login']);
+    //   }
+    // });
+  }
 
   getCurrentUser(): User | null {
     return this.currentUserSubject.value;
@@ -129,11 +131,10 @@ export class AuthService extends ApiService {
     return !!user && !!user.token;
   }
 
-   getToken(): string | null {
+  getToken(): string | null {
     const user = this.getCurrentUser();
     return user?.token || null;
   }
-
 
   private clearUserData(): void {
     localStorage.removeItem('currentUser');
