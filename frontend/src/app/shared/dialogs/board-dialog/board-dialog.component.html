@@ -1,1 +1,157 @@
-<p>board-dialog works!</p>
+<div class="p-6">
+  <h2 class="text-lg font-semibold text-gray-900 mb-4">Create New Board</h2>
+
+  <form [formGroup]="boardForm" (ngSubmit)="onSubmit()">
+    <!-- Board Name -->
+    <mat-form-field class="w-full mb-4">
+      <mat-label>Board Name</mat-label>
+      <input matInput formControlName="name" placeholder="Enter board name" />
+      <mat-error *ngIf="boardForm.get('name')?.errors?.['required']">
+        Board name is required
+      </mat-error>
+      <mat-error *ngIf="boardForm.get('name')?.errors?.['minlength']">
+        Board name must be at least 3 characters
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Board Description -->
+    <mat-form-field class="w-full mb-4">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        placeholder="Enter board description"
+        rows="3"
+      ></textarea>
+    </mat-form-field>
+
+    <!-- Add Members -->
+    <div class="mb-4">
+      <mat-form-field class="w-full">
+        <mat-label>Add Member</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="memberSearchControl"
+          [matAutocomplete]="auto"
+          placeholder="Search by name or email (min 2 characters)"
+        />
+        <mat-icon matSuffix *ngIf="isLoading">search</mat-icon>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="addMember($event.option.value)"
+        >
+          <mat-option *ngFor="let user of filteredUsers" [value]="user">
+            <div class="flex items-center">
+              <div
+                class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center text-white text-sm font-medium mr-3"
+              >
+                {{ (user.firstName || user.name || "").charAt(0)
+                }}{{ (user.lastName || "").charAt(0) }}
+              </div>
+              <div>
+                <div class="font-medium">
+                  {{
+                    user.firstName && user.lastName
+                      ? user.firstName + " " + user.lastName
+                      : user.name
+                  }}
+                </div>
+                <div class="text-sm text-gray-500">{{ user.email }}</div>
+              </div>
+            </div>
+          </mat-option>
+          <mat-option
+            *ngIf="
+              filteredUsers.length === 0 &&
+              !isLoading &&
+              boardForm.get('memberSearchControl')?.value?.length >= 2
+            "
+            disabled
+          >
+            No users found
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <!-- Display selected members -->
+      <div class="mt-3" *ngIf="selectedMembers.length > 0">
+        <label class="block text-sm font-medium text-gray-700 mb-2"
+          >Selected Members</label
+        >
+        <div class="flex flex-wrap gap-2">
+          <div
+            *ngFor="let member of selectedMembers"
+            class="bg-blue-100 text-blue-800 px-3 py-2 rounded-full text-sm flex items-center gap-2"
+          >
+            <div
+              class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-medium"
+            >
+              {{ member.avatar }}
+            </div>
+            <span>{{ member.name }}</span>
+            <!-- Role Dropdown -->
+            <select
+              [(ngModel)]="member.role"
+              class="text-xs px-2 py-1 border rounded bg-white text-gray-700"
+              [ngModelOptions]="{ standalone: true }"
+            >
+              <option value="admin">Admin</option>
+              <option value="member">Member</option>
+            </select>
+            
+            <button
+              type="button"
+              (click)="removeMember(member.id)"
+              class="text-blue-600 hover:text-blue-800 ml-1"
+              mat-icon-button
+            >
+              <mat-icon class="text-sm">close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Color Selection -->
+    <div class="mb-6">
+      <label class="block text-sm font-medium text-gray-700 mb-2"
+        >Board Color</label
+      >
+      <div class="flex gap-3">
+        <button
+          *ngFor="let color of colorOptions"
+          type="button"
+          [style.background-color]="color.value"
+          [class.ring-2]="
+            boardForm.get('thumbnailColor')?.value === color.value
+          "
+          class="w-8 h-8 rounded-full focus:outline-none ring-offset-2 ring-blue-500"
+          [attr.aria-label]="'Select ' + color.name"
+          (click)="selectColor(color.value)"
+        ></button>
+      </div>
+    </div>
+
+    <!-- Dialog Actions -->
+    <div class="flex justify-end gap-3">
+      <button
+        type="button"
+        mat-button
+        (click)="onCancel()"
+        class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        mat-flat-button
+        color="primary"
+        [disabled]="!boardForm.valid"
+        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none disabled:bg-gray-300"
+      >
+        Create Board
+      </button>
+    </div>
+  </form>
+</div>

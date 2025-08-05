@@ -1,9 +1,6 @@
 <div class="min-h-screen bg-gray-100">
-  
-  
   <!-- Header -->
   <header class="bg-white shadow">
-     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <div class="flex justify-between items-center">
         <h1 class="text-2xl font-semibold text-gray-900">My Boards</h1>
@@ -17,10 +14,10 @@
           >
             <div class="flex items-center space-x-3">
               <span class="text-sm font-medium text-gray-700">{{
-                userProfile?.firstName + ' ' + userProfile?.lastName
+                userProfile?.firstName + " " + userProfile?.lastName
               }}</span>
               <div
-                class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white"
+                class="h-8 w-8 rounded-full bg-gray-500 flex items-center justify-center text-white font-semibold"
               >
                 {{ userProfile?.avatar }}
               </div>
@@ -35,7 +32,7 @@
             <div class="py-1">
               <div class="px-4 py-2 border-b">
                 <p class="text-sm font-medium text-gray-900">
-                  {{ userProfile?.firstName + ' ' + userProfile?.lastName }}
+                  {{ userProfile?.firstName + " " + userProfile?.lastName }}
                 </p>
                 <p class="text-xs text-gray-500">{{ userProfile?.email }}</p>
               </div>
@@ -57,8 +54,6 @@
       </div>
     </div>
   </header>
-
- 
 
   <!-- Main Content -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -103,8 +98,48 @@
             class="mt-4 flex items-center justify-between text-sm text-gray-500"
           >
             <div class="flex items-center">
-              <mat-icon class="h-5 w-5 mr-1">group</mat-icon>
-              {{ board.members }} members
+              <!-- <mat-icon class="h-5 w-5 mr-1">group</mat-icon> -->
+              <div class="relative">
+                <button
+                  (click)="toggleMembersList()"
+                  class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none p-1"
+                  aria-label="Toggle members list"
+                >
+                  <div class="flex -space-x-2">
+                    <span
+                      *ngFor="let member of board.members.slice(0, 3)"
+                      class="relative z-0 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 border-2 border-white text-sm font-medium text-gray-700"
+                      [title]="member.name"
+                    >
+                      {{ member.avatar }}
+                    </span>
+                  </div>
+                  <mat-icon
+                    [class.transform]="isMembersListOpen"
+                    [class.rotate-180]="isMembersListOpen"
+                  >
+                    expand_more
+                  </mat-icon>
+                </button>
+
+                <!-- Optional dropdown member list -->
+                <div
+                  *ngIf="isMembersListOpen"
+                  class="absolute z-10 mt-2 w-48 bg-white border rounded shadow-lg p-2"
+                >
+                  <div
+                    *ngFor="let member of board.members"
+                    class="flex items-center space-x-2 py-1"
+                  >
+                    <div
+                      class="h-6 w-6 rounded-full bg-gray-300 flex items-center justify-center text-xs font-medium text-gray-700"
+                    >
+                      {{ member.avatar }}
+                    </div>
+                    <span class="text-sm text-gray-800">{{ member.name }}</span>
+                  </div>
+                </div>
+              </div>
             </div>
             <div>Last modified {{ formatDate(board.lastModified) }}</div>
           </div>

@@ -4,6 +4,8 @@ import { Board } from '../../shared/models/board.model';
 import { User } from '../../shared/models/user.model';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { BoardDialogComponent } from '../../shared/dialogs/board-dialog/board-dialog.component';
 @Component({
   selector: 'app-dashboard-view',
   imports: [MatIconModule, CommonModule],
@@ -15,7 +17,9 @@ export class DashboardViewComponent implements OnInit {
   userProfile: User | null = null;
   userProfileMenuOpen = false;
   isProfileMenuOpen = false;
-  constructor(private authService: AuthService) {
+  isMembersListOpen = false;
+  
+  constructor(private authService: AuthService, private dialog: MatDialog) {
     // Initialize the component
   }
   ngOnInit() {
@@ -34,31 +38,14 @@ export class DashboardViewComponent implements OnInit {
       },
     });
     
+
+  }
+  toggleMembersList() {
+    this.isMembersListOpen = !this.isMembersListOpen;
   }
   loadBoards() {
     // Logic to load boards
-    this.boards = [
-      {
-        id: '1',
-        name: 'Board 1',
-        description: 'Description for Board 1',
-        lastModified: new Date(),
-        members: [],
-        thumbnailColor: '#FF5733',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: '2',
-        name: 'Board 2',
-        description: 'Description for Board 2',
-        lastModified: new Date(),
-        members: [],
-        thumbnailColor: '#33FF57',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
+    this.boards = [];
   }
   toggleProfileMenu() {
     this.isProfileMenuOpen = !this.isProfileMenuOpen;
@@ -72,6 +59,22 @@ export class DashboardViewComponent implements OnInit {
     console.log('User logged out');
   }
   createNewBoard() {
+    const dialogRef = this.dialog.open(BoardDialogComponent, {
+      width: '500px',
+      disableClose: false,
+      hasBackdrop: true,
+      backdropClass: 'backdrop-blur-sm',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Logic to handle the result from the dialog
+        console.log('New board created:', result);
+        this.boards.push(result); 
+        console.log(this.boards)// Add the new board to the list
+      } else {
+        console.log('Board creation cancelled');
+      }
+    });
     // Logic to create a new board
   }
   openBoardSettings() {
@@ -80,11 +83,19 @@ export class DashboardViewComponent implements OnInit {
   openBoard(boardId: string) {
     // Logic to open a specific board by its ID
   }
+  // formatDate(date: Date): string {
+  //   return date.toLocaleDateString('en-US', {
+  //     year: 'numeric',
+  //     month: '2-digit',
+  //     day: '2-digit',
+  //   });
+  // }
   formatDate(date: Date): string {
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
+    // console.log('Formatting date:', date);
+    return new Date(date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
     });
   }
 }
