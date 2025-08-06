@@ -13,6 +13,18 @@ import { BoardDialogComponent } from '../../shared/dialogs/board-dialog/board-di
   styleUrl: './dashboard-view.component.scss',
 })
 export class DashboardViewComponent implements OnInit {
+  board: Board = {
+    id: '',
+    name: '',
+    description: '',
+    columns: [],
+    lastModified: new Date(),
+    members: [],
+    thumbnailColor: '',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+  // Initialize the boards array
   boards: Board[] = [];
   userProfile: User | null = null;
   userProfileMenuOpen = false;

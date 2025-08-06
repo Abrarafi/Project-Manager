@@ -119,6 +119,7 @@ export class BoardDialogComponent implements OnInit {
 
  onSubmit() {
   if (this.boardForm.valid) {
+    const formValues = this.boardForm.value;
     const boardData = {
       ...this.boardForm.value,
       members: this.selectedMembers.map((member) => ({
@@ -128,6 +129,10 @@ export class BoardDialogComponent implements OnInit {
         role: member.role,
         avatar: member.avatar || '',
       })),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      lastModified: new Date(),
+      columns: [], // Initialize with empty columns or set default columns if needed
     };
 
     console.log('Board Data:', boardData);
