@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BoardDialogComponent } from '../../shared/dialogs/board-dialog/board-dialog.component';
 import { DashboardService } from '../../core/services/dashboard.service';
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard-view',
   imports: [MatIconModule, CommonModule, ClickOutsideDirective],
@@ -36,7 +37,8 @@ export class DashboardViewComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private dialog: MatDialog,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private router: Router
   ) {
     // Initialize the component
   }
@@ -101,6 +103,7 @@ export class DashboardViewComponent implements OnInit {
           next: (newBoard) => {
             console.log('New board created:', newBoard);
             this.boards.push(newBoard); // Add the new board to the list
+            this.router.navigate(['/board', newBoard.id]); // Navigate to the new board
           },
           error: (error) => {
             console.error('Error creating board:', error);
@@ -115,8 +118,13 @@ export class DashboardViewComponent implements OnInit {
   openBoardSettings() {
     // Logic to open board settings
   }
-  openBoard(boardId: string) {
-    // Logic to open a specific board by its ID
+  openBoard(boardId: string | undefined):void {
+    if (boardId) {
+      this.router.navigate(['/board', boardId]);
+    }
+    else {
+      console.error('Board ID is undefined');
+    }
   }
   // formatDate(date: Date): string {
   //   return date.toLocaleDateString('en-US', {

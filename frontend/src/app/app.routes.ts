@@ -20,7 +20,7 @@ export const routes: Routes = [
     canActivate:[NoAuthGuard]
   },
   {
-    path: 'board',
+    path: 'board/:id',
     component: BoardViewComponent,
     title: 'Project Board',
     canActivate: [AuthGuard], // Protect board route

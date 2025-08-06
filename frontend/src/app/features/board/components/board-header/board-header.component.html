@@ -30,7 +30,7 @@
                 *ngFor="let member of members.slice(0, 3)"
                 class="relative z-0 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 border-2 border-white text-sm font-medium text-gray-700"
               >
-                {{ member.avatar }}
+                {{ member.user.avatar }}
               </span>
             </div>
             <mat-icon
@@ -57,11 +57,11 @@
                   <span
                     class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-sm font-medium text-gray-700"
                   >
-                    {{ member.avatar }}
+                    {{ member.user.avatar }}
                   </span>
                   <div>
                     <p class="text-sm font-medium text-gray-900">
-                      {{ member.name }}
+                      {{ member.user.name }}
                     </p>
                     <p class="text-xs text-gray-500">{{ member.role }}</p>
                   </div>
