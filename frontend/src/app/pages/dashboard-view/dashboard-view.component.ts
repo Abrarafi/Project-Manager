@@ -6,9 +6,11 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { BoardDialogComponent } from '../../shared/dialogs/board-dialog/board-dialog.component';
+import { DashboardService } from '../../core/services/dashboard.service';
+import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 @Component({
   selector: 'app-dashboard-view',
-  imports: [MatIconModule, CommonModule],
+  imports: [MatIconModule, CommonModule, ClickOutsideDirective],
   templateUrl: './dashboard-view.component.html',
   styleUrl: './dashboard-view.component.scss',
 })
@@ -29,9 +31,13 @@ export class DashboardViewComponent implements OnInit {
   userProfile: User | null = null;
   userProfileMenuOpen = false;
   isProfileMenuOpen = false;
-  isMembersListOpen = false;
-  
-  constructor(private authService: AuthService, private dialog: MatDialog) {
+  openedMemberBoardId: string | null = null;
+
+  constructor(
+    private authService: AuthService,
+    private dialog: MatDialog,
+    private dashboardService: DashboardService
+  ) {
     // Initialize the component
   }
   ngOnInit() {
@@ -49,15 +55,26 @@ export class DashboardViewComponent implements OnInit {
         this.userProfile = null;
       },
     });
-    
-
   }
-  toggleMembersList() {
-    this.isMembersListOpen = !this.isMembersListOpen;
+  toggleMembersList(boardId: string) {
+    console.log('Toggling members list for board:', boardId);
+    this.openedMemberBoardId =
+      this.openedMemberBoardId === boardId ? null : boardId;
+  }
+  isMembersListOpen(boardId: string): boolean {
+    return this.openedMemberBoardId === boardId;
   }
   loadBoards() {
-    // Logic to load boards
-    this.boards = [];
+    this.dashboardService.getBoards().subscribe({
+      next: (boards) => {
+        this.boards = boards;
+        console.log('Boards loaded:', this.boards);
+      },
+      error: (error) => {
+        console.error('Error loading boards:', error);
+        this.boards = [];
+      },
+    });
   }
   toggleProfileMenu() {
     this.isProfileMenuOpen = !this.isProfileMenuOpen;
@@ -79,10 +96,16 @@ export class DashboardViewComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Logic to handle the result from the dialog
-        console.log('New board created:', result);
-        this.boards.push(result); 
-        console.log(this.boards)// Add the new board to the list
+        console.log(result);
+        this.dashboardService.createBoard(result).subscribe({
+          next: (newBoard) => {
+            console.log('New board created:', newBoard);
+            this.boards.push(newBoard); // Add the new board to the list
+          },
+          error: (error) => {
+            console.error('Error creating board:', error);
+          },
+        });
       } else {
         console.log('Board creation cancelled');
       }
@@ -107,7 +130,7 @@ export class DashboardViewComponent implements OnInit {
     return new Date(date).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     });
   }
 }

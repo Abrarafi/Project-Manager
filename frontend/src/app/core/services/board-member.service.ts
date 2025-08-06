@@ -69,7 +69,7 @@ export class BoardMemberService extends ApiService {
       map(board => {
         const processedMember = {
           ...member,
-          avatar: member.avatar || this.generateAvatar(member.name)
+          avatar: member.user.avatar 
         };
         const members = this.processMembers(board.members);
         const updatedMembers = [...members, processedMember];

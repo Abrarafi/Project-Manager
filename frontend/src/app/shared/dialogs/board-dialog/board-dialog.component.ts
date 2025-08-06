@@ -91,10 +91,13 @@ export class BoardDialogComponent implements OnInit {
     if (!this.selectedMembers.some((m) => m.id === user.id)) {
       const newMember: BoardMember = {
         id: user.id,
-        name: user.name || `${user.firstName} ${user.lastName}`,
-        email: user.email,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          avatar: user.avatar || '', // Use user's avatar or a default one
+        },
         role: 'member', // Default role can be set here
-        avatar: user.avatar || '', // Use user's avatar or a default one
       };
       this.selectedMembers.push(newMember);
       this.boardForm.patchValue({ memberSearchControl: '' }); // Clear the search input
@@ -124,10 +127,10 @@ export class BoardDialogComponent implements OnInit {
       ...this.boardForm.value,
       members: this.selectedMembers.map((member) => ({
         id: member.id,
-        name: member.name,
-        email: member.email,
+        name: member.user.name,
+        email: member.user.email,
         role: member.role,
-        avatar: member.avatar || '',
+        avatar: member.user.avatar || '',
       })),
       createdAt: new Date(),
       updatedAt: new Date(),

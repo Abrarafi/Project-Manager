@@ -1,13 +1,12 @@
 import { Column } from "./column.model";
+import { User } from "./user.model";
 
 export type BoardRole = 'admin' | 'member';
 
 export interface BoardMember {
-  id:string;
-  name: string;
-  email:string;
-  role: BoardRole;
-  avatar: string;
+   id: string;
+  role: 'admin' | 'member';
+  user: User;
 }
 
 

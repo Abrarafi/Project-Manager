@@ -101,7 +101,7 @@
               <!-- <mat-icon class="h-5 w-5 mr-1">group</mat-icon> -->
               <div class="relative">
                 <button
-                  (click)="toggleMembersList()"
+                  (click)="toggleMembersList(board.id)"
                   class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none p-1"
                   aria-label="Toggle members list"
                 >
@@ -109,14 +109,14 @@
                     <span
                       *ngFor="let member of board.members.slice(0, 3)"
                       class="relative z-0 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 border-2 border-white text-sm font-medium text-gray-700"
-                      [title]="member.name"
+                      [title]="member.user.name"
                     >
-                      {{ member.avatar }}
+                      {{ member.user.avatar }}
                     </span>
                   </div>
                   <mat-icon
-                    [class.transform]="isMembersListOpen"
-                    [class.rotate-180]="isMembersListOpen"
+                    [class.transform]="isMembersListOpen(board.id)"
+                    [class.rotate-180]="isMembersListOpen(board.id)"
                   >
                     expand_more
                   </mat-icon>
@@ -124,7 +124,9 @@
 
                 <!-- Optional dropdown member list -->
                 <div
-                  *ngIf="isMembersListOpen"
+                  *ngIf="isMembersListOpen(board.id)"
+                  appClickOutside
+                  (clickOutside)="toggleMembersList(board.id)"
                   class="absolute z-10 mt-2 w-48 bg-white border rounded shadow-lg p-2"
                 >
                   <div
@@ -134,9 +136,11 @@
                     <div
                       class="h-6 w-6 rounded-full bg-gray-300 flex items-center justify-center text-xs font-medium text-gray-700"
                     >
-                      {{ member.avatar }}
+                      {{ member.user.avatar }}
                     </div>
-                    <span class="text-sm text-gray-800">{{ member.name }}</span>
+                    <span class="text-sm text-gray-800">{{
+                      member.user.firstName + " " + member.user.lastName
+                    }}</span>
                   </div>
                 </div>
               </div>
