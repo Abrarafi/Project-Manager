@@ -13,6 +13,7 @@ import { ClickOutsideDirective } from '../../../../shared/directives/click-outsi
 import { BoardMemberService } from '../../../../core/services/board-member.service';
 import { BoardMember } from '../../../../shared/models/board.model';
 import e from 'express';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-board-header',
@@ -37,11 +38,16 @@ export class BoardHeaderComponent implements OnInit {
 
   constructor(
     private elementRef: ElementRef,
-    private boardMemberService: BoardMemberService
+    private boardMemberService: BoardMemberService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    const boardId = '1';
+    const boardId = this.route.snapshot.paramMap.get('id');
+    if (!boardId) {
+      console.error('Board ID is not available');
+      return;
+    }
     this.boardMemberService.getMembers(boardId).subscribe((members) => {
       this.members = members;
     });

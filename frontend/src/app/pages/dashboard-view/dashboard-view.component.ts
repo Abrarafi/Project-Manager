@@ -50,7 +50,6 @@ export class DashboardViewComponent implements OnInit {
     this.authService.getProfile().subscribe({
       next: (profile) => {
         this.userProfile = profile;
-        console.log('User profile loaded:', this.userProfile);
       },
       error: (error) => {
         console.error('Error loading user profile:', error);
@@ -59,7 +58,6 @@ export class DashboardViewComponent implements OnInit {
     });
   }
   toggleMembersList(boardId: string) {
-    console.log('Toggling members list for board:', boardId);
     this.openedMemberBoardId =
       this.openedMemberBoardId === boardId ? null : boardId;
   }
@@ -70,7 +68,6 @@ export class DashboardViewComponent implements OnInit {
     this.dashboardService.getBoards().subscribe({
       next: (boards) => {
         this.boards = boards;
-        console.log('Boards loaded:', this.boards);
       },
       error: (error) => {
         console.error('Error loading boards:', error);
@@ -96,9 +93,10 @@ export class DashboardViewComponent implements OnInit {
       hasBackdrop: true,
       backdropClass: 'backdrop-blur-sm',
     });
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
+        console.log("result",result)
         this.dashboardService.createBoard(result).subscribe({
           next: (newBoard) => {
             console.log('New board created:', newBoard);
@@ -118,11 +116,10 @@ export class DashboardViewComponent implements OnInit {
   openBoardSettings() {
     // Logic to open board settings
   }
-  openBoard(boardId: string | undefined):void {
+  openBoard(boardId: string | undefined): void {
     if (boardId) {
       this.router.navigate(['/board', boardId]);
-    }
-    else {
+    } else {
       console.error('Board ID is undefined');
     }
   }

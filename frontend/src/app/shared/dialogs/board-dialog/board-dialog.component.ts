@@ -93,7 +93,8 @@ export class BoardDialogComponent implements OnInit {
         id: user.id,
         user: {
           id: user.id,
-          name: user.name,
+          firstName: user.firstName,
+          lastName: user.lastName,
           email: user.email,
           avatar: user.avatar || '', // Use user's avatar or a default one
         },
@@ -101,9 +102,7 @@ export class BoardDialogComponent implements OnInit {
       };
       this.selectedMembers.push(newMember);
       this.boardForm.patchValue({ memberSearchControl: '' }); // Clear the search input
-      this.filteredUsers = this.filteredUsers.filter(
-        (u) => u.id !== user.id
-      ); // Remove the added user from the filtered list
+      this.filteredUsers = this.filteredUsers.filter((u) => u.id !== user.id); // Remove the added user from the filtered list
     }
     this.boardForm.patchValue({ memberSearchControl: '' }); // Clear the search input
     this.filteredUsers = []; // Clear filtered users
@@ -120,31 +119,28 @@ export class BoardDialogComponent implements OnInit {
     this.onCancel();
   }
 
- onSubmit() {
-  if (this.boardForm.valid) {
-    const formValues = this.boardForm.value;
-    const boardData = {
-      ...this.boardForm.value,
-      members: this.selectedMembers.map((member) => ({
-        id: member.id,
-        name: member.user.name,
-        email: member.user.email,
-        role: member.role,
-        avatar: member.user.avatar || '',
-      })),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      lastModified: new Date(),
-      columns: [], // Initialize with empty columns or set default columns if needed
-    };
+  onSubmit() {
+    if (this.boardForm.valid) {
+      const formValues = this.boardForm.value;
+      console.log('Form Values:', formValues);
+      const boardData = {
+        ...this.boardForm.value,
+        members: this.selectedMembers.map((member) => ({
+          user: member.id,
+          role: member.role,
+        })),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        lastModified: new Date(),
+        columns: [], // Initialize with empty columns or set default columns if needed
+      };
 
-    console.log('Board Data:', boardData);
-    this.dialogRef.close(boardData);
-  } else {
-    console.error('Form is invalid');
+      console.log('Board Data:', boardData);
+      this.dialogRef.close(boardData);
+    } else {
+      console.error('Form is invalid');
+    }
   }
-}
-
 
   onCancel() {
     this.dialogRef.close();

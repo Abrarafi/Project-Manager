@@ -3,6 +3,7 @@ import { BoardHeaderComponent } from '../../features/board/components/board-head
 import { ColumnDialogComponent } from '../../shared/dialogs/column-dialog/column-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Board, BoardMember } from '../../shared/models/board.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-board-view',
@@ -23,10 +24,9 @@ export class BoardViewComponent {
     updatedAt: new Date(),
   };
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog , private router: Router) {}
   onBack(): void {
-    // Logic to handle back navigation
-    console.log('Back button clicked');
+   this.router.navigate(['/dashboard']);
   }
 
   onInviteMember(): void {
